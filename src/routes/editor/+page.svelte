@@ -22,7 +22,10 @@
 <main class="py-12 flex flex-col gap-5">
 	<Section>
 		<div class="mb-8">
-			<h3 class="font-semibold text-3xl mb-1">{asignatura.nombre}</h3>
+			<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3">
+				<span>{asignatura.nombre}</span>
+				<span class="text-zinc-400 font-thin">{asignatura.codigo}</span>
+			</h3>
 			<p class="text-zinc-500">{asignatura.uab}</p>
 		</div>
 
