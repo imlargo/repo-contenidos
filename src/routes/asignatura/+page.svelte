@@ -11,7 +11,7 @@
 
 	import { MarkdownToHtml } from '$src/lib/utils/markdown-service';
 	import Markdown from '$src/lib/components/ui/Markdown.svelte';
-	import { boolToAfirmacion } from '$src/lib/utils/utils';
+	import { boolToAfirmacion, afirmacionToBool } from '$src/lib/utils/utils';
 	import Section from '$src/lib/components/asignatura/Section.svelte';
 	import InfoItem from '$src/lib/components/asignatura/InfoItem.svelte';
 
@@ -80,18 +80,21 @@
 					{#if editMode}
 						<Select.Root
 							selected={{ value: asignatura.vigente, label: boolToAfirmacion(asignatura.vigente) }}
-							onSelectedChange={(value: { value: boolean; label: string }) =>
-								(asignatura.vigente = value.value)}
+							onSelectedChange={(selected) => {
+								if (selected !== undefined) {
+									asignatura.vigente = afirmacionToBool(selected.value as unknown as expresionAfirmacion);
+								}
+							}}
 						>
 							<Select.Trigger>
 								<Select.Value placeholder="Asignatura Vigente" />
 							</Select.Trigger>
 							<Select.Content>
 								<Select.Group>
-									<Select.Item value={true} label={expresionAfirmacion.SI}
+									<Select.Item value={boolToAfirmacion(true)} label={expresionAfirmacion.SI}
 										>{expresionAfirmacion.SI}</Select.Item
 									>
-									<Select.Item value={false} label={expresionAfirmacion.NO}
+									<Select.Item value={boolToAfirmacion(false)} label={expresionAfirmacion.NO}
 										>{expresionAfirmacion.NO}</Select.Item
 									>
 								</Select.Group>
@@ -132,18 +135,21 @@
 								value: asignatura.electiva,
 								label: boolToAfirmacion(asignatura.electiva)
 							}}
-							onSelectedChange={(value: { value: boolean; label: string }) =>
-								(asignatura.electiva = value.value)}
+							onSelectedChange={(selected) => {
+								if (selected !== undefined) {
+									asignatura.electiva = afirmacionToBool(selected.value as unknown as expresionAfirmacion);
+								}
+							}}
 						>
 							<Select.Trigger>
 								<Select.Value placeholder="Libre Elección" />
 							</Select.Trigger>
 							<Select.Content>
 								<Select.Group>
-									<Select.Item value={true} label={expresionAfirmacion.SI}
+									<Select.Item value={boolToAfirmacion(true)} label={expresionAfirmacion.SI}
 										>{expresionAfirmacion.SI}</Select.Item
 									>
-									<Select.Item value={false} label={expresionAfirmacion.NO}
+									<Select.Item value={boolToAfirmacion(false)} label={expresionAfirmacion.NO}
 										>{expresionAfirmacion.NO}</Select.Item
 									>
 								</Select.Group>
@@ -173,18 +179,21 @@
 								value: asignatura.validable,
 								label: boolToAfirmacion(asignatura.validable)
 							}}
-							onSelectedChange={(value: { value: boolean; label: string }) =>
-								(asignatura.validable = value.value)}
+							onSelectedChange={(selected) => {
+								if (selected !== undefined) {
+									asignatura.validable = afirmacionToBool(selected.value as unknown as expresionAfirmacion);
+								}
+							}}
 						>
 							<Select.Trigger>
 								<Select.Value placeholder="Validable" />
 							</Select.Trigger>
 							<Select.Content>
 								<Select.Group>
-									<Select.Item value={true} label={expresionAfirmacion.SI}
+									<Select.Item value={boolToAfirmacion(true)} label={expresionAfirmacion.SI}
 										>{expresionAfirmacion.SI}</Select.Item
 									>
-									<Select.Item value={false} label={expresionAfirmacion.NO}
+									<Select.Item value={boolToAfirmacion(false)} label={expresionAfirmacion.NO}
 										>{expresionAfirmacion.NO}</Select.Item
 									>
 								</Select.Group>
