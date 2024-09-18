@@ -8,14 +8,14 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func getData(selection *goquery.Selection) string {
+func getDataByTitle(selection *goquery.Selection) string {
 	return strings.TrimSpace(selection.Nodes[0].NextSibling.NextSibling.NextSibling.Data)
 }
 func getDescripcion(selection *goquery.Selection) string {
 	return strings.TrimSpace(selection.Nodes[0].NextSibling.NextSibling.NextSibling.Data)
 }
 
-func getMetadatos(contenedor *goquery.Selection) Metadatos {
+func getMetadatos(contenedor *goquery.Selection) *Metadatos {
 
 	metadatos := Metadatos{}
 
@@ -25,36 +25,35 @@ func getMetadatos(contenedor *goquery.Selection) Metadatos {
 
 		switch title {
 		case "asignatura vigente":
-			metadatos.Vigente = getData(s) == "Si"
+			metadatos.Vigente = getDataByTitle(s) == "Si"
 
 		case "nombre asignatura":
-			metadatos.Nombre = getData(s)
+			metadatos.Nombre = getDataByTitle(s)
 		case "unidad academica basica":
-			metadatos.Uab = getData(s)
+			metadatos.Uab = getDataByTitle(s)
 		case "horas presenciales":
-			n, _ := strconv.Atoi(getData(s))
+			n, _ := strconv.Atoi(getDataByTitle(s))
 			metadatos.HorasPresenciales = n
 		case "horas no presenciales":
-			n, _ := strconv.Atoi(getData(s))
+			n, _ := strconv.Atoi(getDataByTitle(s))
 			metadatos.HorasNoPresenciales = n
 		case "creditos":
-			n, _ := strconv.Atoi(getData(s))
+			n, _ := strconv.Atoi(getDataByTitle(s))
 			metadatos.Creditos = n
 		case "validable":
-			metadatos.Validable = getData(s) == "Si"
+			metadatos.Validable = getDataByTitle(s) == "Si"
 		case "libre eleccion":
-			metadatos.Electiva = getData(s) == "Si"
+			metadatos.Electiva = getDataByTitle(s) == "Si"
 		case "descripcion":
 			metadatos.Descripcion = getDescripcion(s)
 
 		}
 	})
 
-	return metadatos
-
+	return &metadatos
 }
 
-func getPlanes(contenedor *goquery.Selection) []string {
+func getPlanes(contenedor *goquery.Selection) *[]string {
 
 	rows := contenedor.Find("tr").Slice(1, goquery.ToEnd)
 	planes := make([]string, rows.Length())
@@ -67,7 +66,7 @@ func getPlanes(contenedor *goquery.Selection) []string {
 		planes[i] = codigo + " - " + plan
 	})
 
-	return planes
+	return &planes
 }
 
 func getContenido(contenedor *goquery.Selection) string {
