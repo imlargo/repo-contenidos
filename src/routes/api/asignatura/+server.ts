@@ -10,37 +10,36 @@ export const GET: RequestHandler = async ({ url }) => {
 	}
 
 	const asignatura = await dbController.getAsignatura(searchCodigo);
-    if (asignatura === null) {
-        return json(null, { status: 404 });
-    }
+	if (asignatura === null) {
+		return json(null, { status: 404 });
+	}
 
-    return json(asignatura);
+	return json(asignatura);
 };
 
 export const POST: RequestHandler = async ({ request }) => {
-    const body = await request.json();
+	const body = await request.json();
 
-    if (!body.asignatura) {
-        return json(false, { status: 400 });
-    }
+	if (!body.asignatura) {
+		return json(false, { status: 400 });
+	}
 
-    const asignatura: Asignatura = body.asignatura;
-    const result = await dbController.createAsignatura(asignatura);
+	const asignatura: Asignatura = body.asignatura;
+	const result = await dbController.createAsignatura(asignatura);
 
-    return json(result);
-	
+	return json(result);
 };
 
 export const PATCH: RequestHandler = async ({ request }) => {
-    const body = await request.json();
+	const body = await request.json();
 
-    if (!body.asignatura) {
-        return json(false, { status: 400 });
-    }
+	if (!body.asignatura) {
+		return json(false, { status: 400 });
+	}
 
-    const codigo: string = body.codigo;
-    const asignatura: Asignatura = body.asignatura;
-    const result = await dbController.updateAsignatura(codigo, asignatura);
+	const codigo: string = body.codigo;
+	const asignatura: Asignatura = body.asignatura;
+	const result = await dbController.updateAsignatura(codigo, asignatura);
 
-    return json(result);
+	return json(result);
 };

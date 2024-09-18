@@ -1,30 +1,41 @@
-import type { Asignatura, SearchResult } from "$lib/types";
+import type { Asignatura, SearchResult } from '$lib/types';
+
+const { default: jsonData } = await import('./data.json');
 
 class DBController {
+	asignaturas: Asignatura[];
 
-    async getAsignatura(codigo: string): Promise<Asignatura | null> {
-        return {} as Asignatura;
-    }
+	constructor() {
+		this.asignaturas = jsonData as Asignatura[];
+	}
 
-    async createAsignatura(asignatura: Asignatura): Promise<boolean> {
-        return true;
-    }
+	async getAsignatura(searchCodigo: string): Promise<Asignatura | null> {
+		const asignatura: Asignatura = this.asignaturas.find(
+			({ codigo }) => codigo === searchCodigo
+		) as Asignatura;
 
-    async updateAsignatura(codigo: string, asignatura: Asignatura): Promise<boolean> {
-        return true;
-    }
+		if (asignatura === undefined) {
+			return null;
+		}
 
-    async searchAsignaturas(searchText: string): Promise<SearchResult[]> {
-        return [{
-            nombre: 'Matemáticas',
-            codigo: 'MAT101',
-        }, {
-            nombre: 'Física',
-            codigo: 'FIS101',
-        }];
-    }
-    
+		return asignatura;
+	}
+
+	async createAsignatura(asignatura: Asignatura): Promise<boolean> {
+		return true;
+	}
+
+	async updateAsignatura(codigo: string, asignatura: Asignatura): Promise<boolean> {
+		return true;
+	}
+
+	async searchAsignaturas(searchText: string): Promise<SearchResult[]> {
+		const asignaturas = this.asignaturas.filter(({ nombre }) =>
+			nombre.toLowerCase().includes(searchText.toLowerCase())
+		);
+
+		return asignaturas.sort((a, b) => a.nombre.localeCompare(b.nombre));
+	}
 }
-
 
 export const dbController = new DBController();

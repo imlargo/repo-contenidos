@@ -28,7 +28,7 @@
 			<div class="flex justify-between">
 				<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3 items-center">
 					<span>{asignatura.nombre}</span>
-					<span class="text-zinc-400 font-thin">{asignatura.codigo}</span>
+					<span class="text-zinc-400 font-light">{asignatura.codigo}</span>
 					<button
 						aria-label="Toggle edit mode"
 						class="text-xl leading-none"

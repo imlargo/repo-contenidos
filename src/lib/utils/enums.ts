@@ -5,5 +5,5 @@ export enum expresionAfirmacion {
 
 export enum SearchOptions {
 	CODIGO = 'Codigo',
-	NOMBRE = 'Nombre',
+	NOMBRE = 'Nombre'
 }
