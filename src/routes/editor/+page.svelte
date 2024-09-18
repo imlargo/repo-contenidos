@@ -23,11 +23,19 @@
 <main class="py-12 flex flex-col gap-5">
 	<Section>
 		<div class="mb-8">
-			<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3">
-				<span>{asignatura.nombre}</span>
-				<span class="text-zinc-400 font-thin">{asignatura.codigo}</span>
-			</h3>
+
+			<div class="flex justify-between">
+				<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3">
+					<span>{asignatura.nombre}</span>
+					<span class="text-zinc-400 font-thin">{asignatura.codigo}</span>
+				</h3>	
+
+				<button disabled class="btn-save ">Guardar</button>
+			</div>
+			
 			<p class="text-zinc-500">{asignatura.uab}</p>
+
+			
 		</div>
 
 		<div class="grid grid-cols-3 gap-4">
@@ -168,11 +176,13 @@
 	</Section>
 
 	<Section>
-		<div class="mb-8">
+		<div class="flex justify-between mb-8">
 			<h3 class="flex gap-2 font-semibold text-3xl">
 				<i class="bi bi-text-left"></i>
 				<span>Descripción</span>
 			</h3>
+
+			<button class="btn-save">Guardar</button>
 		</div>
 
 		<div class="grid grid-cols-2 gap-x-8">
@@ -191,11 +201,13 @@
 	</Section>
 
 	<Section>
-		<div class="mb-8">
+		<div class="flex justify-between mb-8">
 			<h3 class="flex gap-2 font-semibold text-3xl">
 				<i class="bi bi-journal-bookmark"></i>
 				<span>Contenido</span>
 			</h3>
+
+			<button class="btn-save">Guardar</button>
 		</div>
 
 		<div class="grid grid-cols-2 gap-x-8">
@@ -239,5 +251,13 @@
 <style lang="scss">
 	.slot-info {
 		@apply rounded-md hover:bg-zinc-100 py-2 px-3;
+	}
+
+	.btn-save {
+		@apply bg-black text-white font-semibold px-4 py-1 rounded-md cursor-pointer;
+
+		&:disabled, &[disabled] {
+			@apply bg-zinc-100 text-zinc-600 cursor-auto;
+		}
 	}
 </style>
