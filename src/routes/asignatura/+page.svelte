@@ -82,7 +82,9 @@
 							selected={{ value: asignatura.vigente, label: boolToAfirmacion(asignatura.vigente) }}
 							onSelectedChange={(selected) => {
 								if (selected !== undefined) {
-									asignatura.vigente = afirmacionToBool(selected.value as unknown as expresionAfirmacion);
+									asignatura.vigente = afirmacionToBool(
+										selected.value as unknown as expresionAfirmacion
+									);
 								}
 							}}
 						>
@@ -137,7 +139,9 @@
 							}}
 							onSelectedChange={(selected) => {
 								if (selected !== undefined) {
-									asignatura.electiva = afirmacionToBool(selected.value as unknown as expresionAfirmacion);
+									asignatura.electiva = afirmacionToBool(
+										selected.value as unknown as expresionAfirmacion
+									);
 								}
 							}}
 						>
@@ -181,7 +185,9 @@
 							}}
 							onSelectedChange={(selected) => {
 								if (selected !== undefined) {
-									asignatura.validable = afirmacionToBool(selected.value as unknown as expresionAfirmacion);
+									asignatura.validable = afirmacionToBool(
+										selected.value as unknown as expresionAfirmacion
+									);
 								}
 							}}
 						>
