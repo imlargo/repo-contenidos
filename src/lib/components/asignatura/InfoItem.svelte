@@ -4,10 +4,10 @@
 	type Props = {
 		icon: Snippet;
 		titulo: string;
-		info: string;
+		data: Snippet;
 	};
 
-	const { icon, titulo, info }: Props = $props();
+	const { icon, titulo, data }: Props = $props();
 </script>
 
 <div class="bg-zinc-100 rounded-lg p-3 transition-all duration-300 hover:bg-zinc-200">
@@ -15,5 +15,7 @@
 		{@render icon()}
 		<span>{titulo}</span>
 	</h3>
-	<p>{info}</p>
+	<div>
+		{@render data()}
+	</div>
 </div>

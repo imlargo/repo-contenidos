@@ -25,13 +25,16 @@
 		</div>
 
 		<div class="grid grid-cols-3 gap-4">
-			<InfoItem titulo="Créditos" info={asignatura.creditos.toString()}>
+			<InfoItem titulo="Créditos">
 				{#snippet icon()}
 					<i class="bi bi-hash"></i>
 				{/snippet}
+				{#snippet data()}
+					<p>{asignatura.creditos.toString()}</p>
+				{/snippet}
 			</InfoItem>
 
-			<InfoItem titulo="Asignatura Vigente" info={boolToAfirmacion(asignatura.vigente)}>
+			<InfoItem titulo="Asignatura Vigente">
 				{#snippet icon()}
 					<i
 						class="bi"
@@ -41,24 +44,30 @@
 						class:text-rose-500={!asignatura.vigente}
 					></i>
 				{/snippet}
+				{#snippet data()}
+					<p>{boolToAfirmacion(asignatura.vigente)}</p>
+				{/snippet}
 			</InfoItem>
 
-			<InfoItem titulo="Horas presenciales" info={asignatura.horasPresenciales.toString()}>
+			<InfoItem titulo="Horas presenciales">
 				{#snippet icon()}
 					<i class="bi bi-clock"></i>
 				{/snippet}
-			</InfoItem>
-
-			<InfoItem
-				titulo="Libre Elección"
-				info={asignatura.electiva ? expresionAfirmacion.SI : expresionAfirmacion.NO}
-			>
-				{#snippet icon()}
-					<i class="bi bi-bookmark"></i>
+				{#snippet data()}
+					<p>{asignatura.horasPresenciales.toString()}</p>
 				{/snippet}
 			</InfoItem>
 
-			<InfoItem titulo="Validable" info={boolToAfirmacion(asignatura.validable)}>
+			<InfoItem titulo="Libre Elección">
+				{#snippet icon()}
+					<i class="bi bi-bookmark"></i>
+				{/snippet}
+				{#snippet data()}
+					<p>{boolToAfirmacion(asignatura.electiva)}</p>
+				{/snippet}
+			</InfoItem>
+
+			<InfoItem titulo="Validable">
 				{#snippet icon()}
 					<i
 						class="bi"
@@ -68,11 +77,17 @@
 						class:text-rose-500={!asignatura.validable}
 					></i>
 				{/snippet}
+				{#snippet data()}
+					<p>{boolToAfirmacion(asignatura.validable)}</p>
+				{/snippet}
 			</InfoItem>
 
-			<InfoItem titulo="Horas no presenciales" info={asignatura.horasNoPresenciales.toString()}>
+			<InfoItem titulo="Horas no presenciales">
 				{#snippet icon()}
 					<i class="bi bi-clock"></i>
+				{/snippet}
+				{#snippet data()}
+					<p>{asignatura.horasNoPresenciales.toString()}</p>
 				{/snippet}
 			</InfoItem>
 		</div>
