@@ -23,19 +23,16 @@
 <main class="py-12 flex flex-col gap-5">
 	<Section>
 		<div class="mb-8">
-
 			<div class="flex justify-between">
 				<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3">
 					<span>{asignatura.nombre}</span>
 					<span class="text-zinc-400 font-thin">{asignatura.codigo}</span>
-				</h3>	
+				</h3>
 
-				<button disabled class="btn-save ">Guardar</button>
+				<button disabled class="btn-save">Guardar</button>
 			</div>
-			
-			<p class="text-zinc-500">{asignatura.uab}</p>
 
-			
+			<p class="text-zinc-500">{asignatura.uab}</p>
 		</div>
 
 		<div class="grid grid-cols-3 gap-4">
@@ -240,7 +237,7 @@
 				<div class="flex bg-zinc-100 px-3 py-2 rounded-md">
 					<div class="flex gap-2">
 						<i class="bi bi-bookmark"></i>
-						<span>{plan}</span>
+						<span>{plan.codigo} - {plan.nombre}</span>
 					</div>
 				</div>
 			{/each}
@@ -256,7 +253,8 @@
 	.btn-save {
 		@apply bg-black text-white font-semibold px-4 py-1 rounded-md cursor-pointer;
 
-		&:disabled, &[disabled] {
+		&:disabled,
+		&[disabled] {
 			@apply bg-zinc-100 text-zinc-600 cursor-auto;
 		}
 	}

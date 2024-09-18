@@ -53,20 +53,23 @@ func getMetadatos(contenedor *goquery.Selection) *Metadatos {
 	return &metadatos
 }
 
-func getPlanes(contenedor *goquery.Selection) *[]string {
+func getPlanes(contenedor *goquery.Selection) []*Plan {
 
 	rows := contenedor.Find("tr").Slice(1, goquery.ToEnd)
-	planes := make([]string, rows.Length())
+	planes := make([]*Plan, rows.Length())
 
 	rows.Each(func(i int, s *goquery.Selection) {
 		tds := s.Find("td")
 		codigo := tds.Eq(0).Text()
 		plan := tds.Eq(1).Text()
 
-		planes[i] = codigo + " - " + plan
+		planes[i] = &Plan{
+			Codigo: codigo,
+			Nombre: plan,
+		}
 	})
 
-	return &planes
+	return planes
 }
 
 func getContenido(contenedor *goquery.Selection) string {

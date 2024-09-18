@@ -12,5 +12,10 @@ export interface Asignatura {
 	electiva: boolean;
 	descripcion: string;
 	contenido: string;
-	planes_relacionados: string[];
+	planes_relacionados: Plan[];
+}
+
+export interface Plan {
+	codigo: string;
+	nombre: string;
 }

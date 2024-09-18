@@ -135,7 +135,7 @@
 				<div class="flex bg-zinc-100 px-3 py-2 rounded-md">
 					<div class="flex gap-2">
 						<i class="bi bi-bookmark"></i>
-						<span>{plan}</span>
+						<span>{plan.codigo} - {plan.nombre}</span>
 					</div>
 				</div>
 			{/each}
