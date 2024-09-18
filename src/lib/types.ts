@@ -19,3 +19,10 @@ export interface Plan {
 	codigo: string;
 	nombre: string;
 }
+
+export interface SearchResult {
+	codigo: string;
+	nombre: string;
+	uab: string;
+	vigente: boolean;
+}

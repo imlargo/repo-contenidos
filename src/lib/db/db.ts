@@ -1,4 +1,4 @@
-import type { Asignatura } from "../types";
+import type { Asignatura, SearchResult } from "$lib/types";
 
 class DBController {
 
@@ -12,6 +12,16 @@ class DBController {
 
     async updateAsignatura(codigo: string, asignatura: Asignatura): Promise<boolean> {
         return true;
+    }
+
+    async searchAsignaturas(searchText: string): Promise<SearchResult[]> {
+        return [{
+            nombre: 'Matemáticas',
+            codigo: 'MAT101',
+        }, {
+            nombre: 'Física',
+            codigo: 'FIS101',
+        }];
     }
     
 }
