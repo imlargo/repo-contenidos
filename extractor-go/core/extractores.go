@@ -1,0 +1,79 @@
+package core
+
+import (
+	"regexp"
+	"strconv"
+	"strings"
+
+	"github.com/PuerkitoBio/goquery"
+)
+
+func getData(selection *goquery.Selection) string {
+	return strings.TrimSpace(selection.Nodes[0].NextSibling.NextSibling.NextSibling.Data)
+}
+func getDescripcion(selection *goquery.Selection) string {
+	return strings.TrimSpace(selection.Nodes[0].NextSibling.NextSibling.NextSibling.Data)
+}
+
+func getMetadatos(contenedor *goquery.Selection) Metadatos {
+
+	metadatos := Metadatos{}
+
+	contenedor.Find("h3").Each(func(i int, s *goquery.Selection) {
+
+		title := normalizeString(s.Text())
+
+		switch title {
+		case "asignatura vigente":
+			metadatos.Vigente = getData(s) == "Si"
+
+		case "nombre asignatura":
+			metadatos.Nombre = getData(s)
+		case "unidad academica basica":
+			metadatos.Uab = getData(s)
+		case "horas presenciales":
+			n, _ := strconv.Atoi(getData(s))
+			metadatos.HorasPresenciales = n
+		case "horas no presenciales":
+			n, _ := strconv.Atoi(getData(s))
+			metadatos.HorasNoPresenciales = n
+		case "creditos":
+			n, _ := strconv.Atoi(getData(s))
+			metadatos.Creditos = n
+		case "validable":
+			metadatos.Validable = getData(s) == "Si"
+		case "libre eleccion":
+			metadatos.Electiva = getData(s) == "Si"
+		case "descripcion":
+			metadatos.Descripcion = getDescripcion(s)
+
+		}
+	})
+
+	return metadatos
+
+}
+
+func getPlanes(contenedor *goquery.Selection) []string {
+
+	rows := contenedor.Find("tr").Slice(1, goquery.ToEnd)
+	planes := make([]string, rows.Length())
+
+	rows.Each(func(i int, s *goquery.Selection) {
+		tds := s.Find("td")
+		codigo := tds.Eq(0).Text()
+		plan := tds.Eq(1).Text()
+
+		planes[i] = codigo + " - " + plan
+	})
+
+	return planes
+}
+
+func getContenido(contenedor *goquery.Selection) string {
+
+	// Regex para eliminar los saltos de linea y dejarlos solo con un salto de linea
+	raw := regexp.MustCompile(`\n\n+`).ReplaceAllString(contenedor.Text(), "\n\n")
+
+	return strings.TrimSpace(raw)
+}
