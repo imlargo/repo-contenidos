@@ -17,6 +17,7 @@
 
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
+	import TextEditor from '$src/lib/components/ui/TextEditor.svelte';
 </script>
 
 <main class="py-12 flex flex-col gap-5">
@@ -175,16 +176,16 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-x-8">
-			<div>
-				<textarea
-					bind:value={asignatura.descripcion}
-					class="border rounded-md p-4 w-full"
-					style="field-sizing: content !important;"
-				></textarea>
+			<div class="flex flex-col">
+				<TextEditor bind:value={asignatura.descripcion} />
 			</div>
 
 			<div>
-				<Markdown html={MarkdownToHtml(asignatura.descripcion)} />
+				<Markdown
+					html={asignatura.descripcion === ''
+						? 'Empiece a escribir...'
+						: MarkdownToHtml(asignatura.descripcion)}
+				/>
 			</div>
 		</div>
 	</Section>
@@ -198,16 +199,16 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-x-8">
-			<div>
-				<textarea
-					bind:value={asignatura.contenido}
-					class="border rounded-md p-4 w-full"
-					style="field-sizing: content !important;"
-				></textarea>
+			<div class="flex flex-col">
+				<TextEditor bind:value={asignatura.contenido} />
 			</div>
 
-			<div>
-				<Markdown html={MarkdownToHtml(asignatura.contenido)} />
+			<div class="flex flex-col text-wrap">
+				<Markdown
+					html={asignatura.contenido === ''
+						? 'Empiece a escribir...'
+						: MarkdownToHtml(asignatura.contenido)}
+				/>
 			</div>
 		</div>
 

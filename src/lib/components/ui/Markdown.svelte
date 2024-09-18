@@ -6,7 +6,7 @@
 	const { html }: Props = $props();
 </script>
 
-<div class="md flex flex-col gap-1" spellcheck="true">
+<div class="md flex flex-col gap-1 text-wrap" spellcheck="true">
 	{@html html}
 </div>
 
@@ -32,11 +32,11 @@
 	}
 
 	.md :global(ul) {
-		@apply list-disc flex flex-col gap-2 pl-5;
+		@apply list-disc flex flex-col gap-1 pl-5;
 	}
 
 	.md :global(p) {
-		@apply font-light text-base;
+		@apply font-light text-base mb-1;
 	}
 
 	.md :global(strong) {
@@ -45,5 +45,9 @@
 
 	.md :global(a) {
 		@apply underline;
+	}
+
+	.md :global(ol) {
+		@apply list-disc flex flex-col gap-1 pl-5;
 	}
 </style>

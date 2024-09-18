@@ -15,3 +15,18 @@ body {
 	text-rendering: optimizeLegibility;
 	font-optical-sizing: auto;
 }
+
+.ql-toolbar.ql-snow {
+	@apply rounded-t-md;
+}
+.ql-container.ql-snow {
+	@apply rounded-b-md;
+}
+
+.ql-formats {
+	@apply inline-flex gap-1 #{!important};
+
+	button {
+		@apply rounded bg-zinc-50 transition-all duration-100 hover:bg-zinc-200 #{!important};
+	}
+}
