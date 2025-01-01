@@ -11,10 +11,11 @@
 	const { children }: Props = $props();
 </script>
 
-<div class="px-5 md:max-w-7xl mx-auto container py-5">
-	<Nav />
+<Nav />
 
+<div class="flex-grow py-12">
 	{@render children()}
-
-	<Footer />
 </div>
+
+<Footer />
+
