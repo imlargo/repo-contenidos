@@ -17,6 +17,9 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import TextEditor from '$src/lib/components/ui/TextEditor.svelte';
 
+	import { StoreAsignatura } from '$src/lib/stores/asignatura.svelte';
+	const storeAsignatura = new StoreAsignatura(asignatura);
+
 	let editMode = $state(false);
 </script>
 
@@ -24,8 +27,8 @@
 	<div class="mb-8">
 		<div class="flex justify-between">
 			<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3 items-center">
-				<span>{asignatura.nombre}</span>
-				<span class="text-zinc-400 font-light">{asignatura.codigo}</span>
+				<span>{storeAsignatura.asignatura.nombre}</span>
+				<span class="text-zinc-400 font-light">{storeAsignatura.asignatura.codigo}</span>
 				<button
 					aria-label="Toggle edit mode"
 					class="text-xl leading-none"
@@ -46,7 +49,7 @@
 			{/if}
 		</div>
 
-		<p class="text-zinc-500">{asignatura.uab}</p>
+		<p class="text-zinc-500">{storeAsignatura.asignatura.uab}</p>
 	</div>
 
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -56,9 +59,9 @@
 			{/snippet}
 			{#snippet data()}
 				{#if editMode}
-					<Input type="number" placeholder="Créditos" bind:value={asignatura.creditos} />
+					<Input type="number" placeholder="Créditos" bind:value={storeAsignatura.asignatura.creditos} />
 				{:else}
-					<p>{asignatura.creditos.toString()}</p>
+					<p>{storeAsignatura.asignatura.creditos.toString()}</p>
 				{/if}
 			{/snippet}
 		</InfoItem>
@@ -67,25 +70,25 @@
 			{#snippet icon()}
 				<i
 					class="bi"
-					class:bi-check2-circle={asignatura.vigente}
-					class:bi-x-circle={!asignatura.vigente}
-					class:text-lime-500={asignatura.vigente}
-					class:text-rose-500={!asignatura.vigente}
+					class:bi-check2-circle={storeAsignatura.asignatura.vigente}
+					class:bi-x-circle={!storeAsignatura.asignatura.vigente}
+					class:text-lime-500={storeAsignatura.asignatura.vigente}
+					class:text-rose-500={!storeAsignatura.asignatura.vigente}
 				></i>
 			{/snippet}
 			{#snippet data()}
 				{#if editMode}
 					<Select.Root
 						type="single"
-						value={asignatura.vigente as unknown as string}
+						value={storeAsignatura.asignatura.vigente as unknown as string}
 						onValueChange={(value: unknown) => {
 							if (value !== undefined) {
-								asignatura.vigente = afirmacionToBool(value as unknown as expresionAfirmacion);
+								storeAsignatura.asignatura.vigente = afirmacionToBool(value as unknown as expresionAfirmacion);
 							}
 						}}
 					>
 						<Select.Trigger>
-							{boolToAfirmacion(asignatura.vigente)}
+							{boolToAfirmacion(storeAsignatura.asignatura.vigente)}
 						</Select.Trigger>
 						<Select.Content>
 							<Select.Group>
@@ -99,7 +102,7 @@
 						</Select.Content>
 					</Select.Root>
 				{:else}
-					<p>{boolToAfirmacion(asignatura.vigente)}</p>
+					<p>{boolToAfirmacion(storeAsignatura.asignatura.vigente)}</p>
 				{/if}
 			{/snippet}
 		</InfoItem>
@@ -113,10 +116,10 @@
 					<Input
 						type="number"
 						placeholder="Horas presenciales"
-						bind:value={asignatura.horasPresenciales}
+						bind:value={storeAsignatura.asignatura.horasPresenciales}
 					/>
 				{:else}
-					<p>{asignatura.horasPresenciales.toString()}</p>
+					<p>{storeAsignatura.asignatura.horasPresenciales.toString()}</p>
 				{/if}
 			{/snippet}
 		</InfoItem>
@@ -129,15 +132,15 @@
 				{#if editMode}
 					<Select.Root
 						type="single"
-						value={asignatura.electiva as unknown as string}
+						value={storeAsignatura.asignatura.electiva as unknown as string}
 						onValueChange={(value) => {
 							if (value !== undefined) {
-								asignatura.electiva = afirmacionToBool(value as unknown as expresionAfirmacion);
+								storeAsignatura.asignatura.electiva = afirmacionToBool(value as unknown as expresionAfirmacion);
 							}
 						}}
 					>
 						<Select.Trigger>
-							{boolToAfirmacion(asignatura.electiva)}
+							{boolToAfirmacion(storeAsignatura.asignatura.electiva)}
 						</Select.Trigger>
 						<Select.Content>
 							<Select.Group>
@@ -151,7 +154,7 @@
 						</Select.Content>
 					</Select.Root>
 				{:else}
-					<p>{boolToAfirmacion(asignatura.electiva)}</p>
+					<p>{boolToAfirmacion(storeAsignatura.asignatura.electiva)}</p>
 				{/if}
 			{/snippet}
 		</InfoItem>
@@ -160,25 +163,25 @@
 			{#snippet icon()}
 				<i
 					class="bi"
-					class:bi-check2-circle={asignatura.validable}
-					class:bi-x-circle={!asignatura.validable}
-					class:text-lime-500={asignatura.validable}
-					class:text-rose-500={!asignatura.validable}
+					class:bi-check2-circle={storeAsignatura.asignatura.validable}
+					class:bi-x-circle={!storeAsignatura.asignatura.validable}
+					class:text-lime-500={storeAsignatura.asignatura.validable}
+					class:text-rose-500={!storeAsignatura.asignatura.validable}
 				></i>
 			{/snippet}
 			{#snippet data()}
 				{#if editMode}
 					<Select.Root
 						type="single"
-						value={asignatura.validable as unknown as string}
+						value={storeAsignatura.asignatura.validable as unknown as string}
 						onValueChange={(value) => {
 							if (value !== undefined) {
-								asignatura.validable = afirmacionToBool(value as unknown as expresionAfirmacion);
+								storeAsignatura.asignatura.validable = afirmacionToBool(value as unknown as expresionAfirmacion);
 							}
 						}}
 					>
 						<Select.Trigger>
-							{boolToAfirmacion(asignatura.validable)}
+							{boolToAfirmacion(storeAsignatura.asignatura.validable)}
 						</Select.Trigger>
 						<Select.Content>
 							<Select.Group>
@@ -192,7 +195,7 @@
 						</Select.Content>
 					</Select.Root>
 				{:else}
-					<p>{boolToAfirmacion(asignatura.validable)}</p>
+					<p>{boolToAfirmacion(storeAsignatura.asignatura.validable)}</p>
 				{/if}
 			{/snippet}
 		</InfoItem>
@@ -206,10 +209,10 @@
 					<Input
 						type="number"
 						placeholder="Horas no presenciales"
-						bind:value={asignatura.horasNoPresenciales}
+						bind:value={storeAsignatura.asignatura.horasNoPresenciales}
 					/>
 				{:else}
-					<p>{asignatura.horasNoPresenciales.toString()}</p>
+					<p>{storeAsignatura.asignatura.horasNoPresenciales.toString()}</p>
 				{/if}
 			{/snippet}
 		</InfoItem>
@@ -229,20 +232,20 @@
 	{#if editMode}
 		<div class="grid grid-cols-2 gap-x-8">
 			<div class="flex flex-col">
-				<TextEditor bind:value={asignatura.descripcion} />
+				<TextEditor bind:value={storeAsignatura.asignatura.descripcion} />
 			</div>
 
 			<div>
 				<Markdown
-					html={asignatura.descripcion === ''
+					html={storeAsignatura.asignatura.descripcion === ''
 						? 'Empiece a escribir...'
-						: MarkdownToHtml(asignatura.descripcion)}
+						: MarkdownToHtml(storeAsignatura.asignatura.descripcion)}
 				/>
 			</div>
 		</div>
 	{:else}
 		<div>
-			<Markdown html={MarkdownToHtml(asignatura.descripcion)} />
+			<Markdown html={MarkdownToHtml(storeAsignatura.asignatura.descripcion)} />
 		</div>
 	{/if}
 </Section>
@@ -260,20 +263,20 @@
 	{#if editMode}
 		<div class="grid grid-cols-2 gap-x-8">
 			<div class="flex flex-col">
-				<TextEditor bind:value={asignatura.contenido} />
+				<TextEditor bind:value={storeAsignatura.asignatura.contenido} />
 			</div>
 
 			<div class="flex flex-col text-wrap">
 				<Markdown
-					html={asignatura.contenido === ''
+					html={storeAsignatura.asignatura.contenido === ''
 						? 'Empiece a escribir...'
-						: MarkdownToHtml(asignatura.contenido)}
+						: MarkdownToHtml(storeAsignatura.asignatura.contenido)}
 				/>
 			</div>
 		</div>
 	{:else}
 		<div>
-			<Markdown html={MarkdownToHtml(asignatura.contenido)} />
+			<Markdown html={MarkdownToHtml(storeAsignatura.asignatura.contenido)} />
 		</div>
 	{/if}
 </Section>
@@ -287,7 +290,7 @@
 	</div>
 
 	<div class="flex flex-col gap-3">
-		{#each asignatura.planes_relacionados as plan}
+		{#each storeAsignatura.asignatura.planes_relacionados as plan}
 			<div class="flex bg-zinc-100 px-3 py-2 rounded-md">
 				<div class="flex gap-2">
 					<i class="bi bi-bookmark"></i>
