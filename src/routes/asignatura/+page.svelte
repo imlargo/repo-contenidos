@@ -79,17 +79,16 @@
 				{#snippet data()}
 					{#if editMode}
 						<Select.Root
-							selected={{ value: asignatura.vigente, label: boolToAfirmacion(asignatura.vigente) }}
-							onSelectedChange={(selected) => {
-								if (selected !== undefined) {
-									asignatura.vigente = afirmacionToBool(
-										selected.value as unknown as expresionAfirmacion
-									);
+							type="single"
+							value={asignatura.vigente as unknown as string}
+							onValueChange={(value: unknown) => {
+								if (value !== undefined) {
+									asignatura.vigente = afirmacionToBool(value as unknown as expresionAfirmacion);
 								}
 							}}
 						>
 							<Select.Trigger>
-								<Select.Value placeholder="Asignatura Vigente" />
+								{boolToAfirmacion(asignatura.vigente)}
 							</Select.Trigger>
 							<Select.Content>
 								<Select.Group>
@@ -101,7 +100,6 @@
 									>
 								</Select.Group>
 							</Select.Content>
-							<Select.Input name="vigente" value={asignatura.vigente} />
 						</Select.Root>
 					{:else}
 						<p>{boolToAfirmacion(asignatura.vigente)}</p>
@@ -133,20 +131,16 @@
 				{#snippet data()}
 					{#if editMode}
 						<Select.Root
-							selected={{
-								value: asignatura.electiva,
-								label: boolToAfirmacion(asignatura.electiva)
-							}}
-							onSelectedChange={(selected) => {
-								if (selected !== undefined) {
-									asignatura.electiva = afirmacionToBool(
-										selected.value as unknown as expresionAfirmacion
-									);
+							type="single"
+							value={asignatura.electiva as unknown as string}
+							onValueChange={(value) => {
+								if (value !== undefined) {
+									asignatura.electiva = afirmacionToBool(value as unknown as expresionAfirmacion);
 								}
 							}}
 						>
 							<Select.Trigger>
-								<Select.Value placeholder="Libre Elección" />
+								{boolToAfirmacion(asignatura.electiva)}
 							</Select.Trigger>
 							<Select.Content>
 								<Select.Group>
@@ -158,7 +152,6 @@
 									>
 								</Select.Group>
 							</Select.Content>
-							<Select.Input name="vigente" />
 						</Select.Root>
 					{:else}
 						<p>{boolToAfirmacion(asignatura.electiva)}</p>
@@ -179,20 +172,16 @@
 				{#snippet data()}
 					{#if editMode}
 						<Select.Root
-							selected={{
-								value: asignatura.validable,
-								label: boolToAfirmacion(asignatura.validable)
-							}}
-							onSelectedChange={(selected) => {
-								if (selected !== undefined) {
-									asignatura.validable = afirmacionToBool(
-										selected.value as unknown as expresionAfirmacion
-									);
+							type="single"
+							value={asignatura.validable as unknown as string}
+							onValueChange={(value) => {
+								if (value !== undefined) {
+									asignatura.validable = afirmacionToBool(value as unknown as expresionAfirmacion);
 								}
 							}}
 						>
 							<Select.Trigger>
-								<Select.Value placeholder="Validable" />
+								{boolToAfirmacion(asignatura.validable)}
 							</Select.Trigger>
 							<Select.Content>
 								<Select.Group>
@@ -204,7 +193,6 @@
 									>
 								</Select.Group>
 							</Select.Content>
-							<Select.Input name="vigente" value={asignatura.validable} />
 						</Select.Root>
 					{:else}
 						<p>{boolToAfirmacion(asignatura.validable)}</p>

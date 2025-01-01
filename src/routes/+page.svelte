@@ -43,15 +43,16 @@
 		<div class="flex gap-2">
 			<div class="min-w-40">
 				<Select.Root
-					selected={{ value: SearchOptions.CODIGO, label: 'Por ' + SearchOptions.CODIGO }}
-					onSelectedChange={(selected) => {
-						if (selected !== undefined) {
-							searchBy = selected.value as SearchOptions;
+					type="single"
+					value={SearchOptions.CODIGO}
+					onValueChange={(value: unknown) => {
+						if (value !== undefined) {
+							searchBy = value as SearchOptions;
 						}
 					}}
 				>
 					<Select.Trigger>
-						<Select.Value placeholder="Asignatura Vigente" />
+						Por {searchBy}
 					</Select.Trigger>
 					<Select.Content>
 						<Select.Group>
@@ -63,7 +64,6 @@
 							>
 						</Select.Group>
 					</Select.Content>
-					<Select.Input name="vigente" value={searchBy} />
 				</Select.Root>
 			</div>
 
