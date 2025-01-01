@@ -13,7 +13,7 @@
 
 <Nav />
 
-<div class="flex-grow py-12">
+<div class="flex-grow py-24 container mx-auto">
 	{@render children()}
 </div>
 

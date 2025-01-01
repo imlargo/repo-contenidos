@@ -22,7 +22,7 @@
 	let editMode = $state(false);
 </script>
 
-<main class="py-12 flex flex-col gap-5">
+<main class="flex flex-col gap-5">
 	<Section>
 		<div class="mb-8">
 			<div class="flex justify-between">
