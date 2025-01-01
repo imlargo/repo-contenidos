@@ -52,7 +52,7 @@
 			<p class="text-zinc-500">{asignatura.uab}</p>
 		</div>
 
-		<div class="grid grid-cols-3 gap-4">
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 			<InfoItem titulo="Créditos">
 				{#snippet icon()}
 					<i class="bi bi-hash"></i>
