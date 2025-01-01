@@ -6,7 +6,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
 
-	import type { SearchResult } from '$lib/types';
+	import type { SearchResult } from '$src/lib/types/types';
 	import { SearchOptions } from '$src/lib/utils/enums';
 
 	let campoBusqueda = $state('');

@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import type { Asignatura } from '$src/lib/types';
+import type { Asignatura } from '$src/lib/types/asignatura';
 import { json } from '@sveltejs/kit';
 import { dbController } from '$src/lib/db/db';
 

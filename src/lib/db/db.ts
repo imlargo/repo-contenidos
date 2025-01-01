@@ -1,4 +1,5 @@
-import type { Asignatura, SearchResult } from '$lib/types';
+import type { SearchResult } from '../types/types';
+import type { Asignatura } from '$src/lib/types/asignatura';
 
 const { default: jsonData } = await import('./data.json');
 

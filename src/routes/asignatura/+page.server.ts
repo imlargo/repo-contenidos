@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { Asignatura } from '$src/lib/types';
+import type { Asignatura } from '$src/lib/types/asignatura';
 import { dbController } from '$src/lib/db/db';
 
 export const load = (async ({ url }) => {
