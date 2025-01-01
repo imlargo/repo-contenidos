@@ -10,7 +10,7 @@
 	import { SearchOptions } from '$src/lib/utils/enums';
 
 	let campoBusqueda = $state('');
-	let searchBy: SearchOptions = $state(SearchOptions.CODIGO);
+	let searchBy: SearchOptions = $state(SearchOptions.NOMBRE);
 
 	let listado: SearchResult[] = $state([]);
 
@@ -50,7 +50,7 @@
 		<div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
 			<Select.Root
 				type="single"
-				value={SearchOptions.CODIGO}
+				value={SearchOptions.NOMBRE}
 				onValueChange={(value: unknown) => {
 					if (value !== undefined) {
 						searchBy = value as SearchOptions;
