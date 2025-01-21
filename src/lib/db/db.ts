@@ -11,6 +11,11 @@ class DBController {
 	async getAsignatura(searchCodigo: string): Promise<Asignatura | null> {
 		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select().eq('codigo', searchCodigo)
 
+		if (error !== null) {
+			console.log(error);
+			return null;
+		}
+
 		if (data === null || data.length === 0) {
 			return null;
 		}
@@ -27,7 +32,13 @@ class DBController {
 	}
 
 	async searchAsignaturas(searchText: string): Promise<SearchResult[]> {
-		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select().textSearch('codigo,nombre,uab,vigente', `'${searchText}'`)
+		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select().textSearch('codigo,nombre,vigente', `'${searchText}'`)
+
+		if (error !== null) {
+			console.log(error);
+			return [];
+		}
+
 		return (data as SearchResult[]).sort((a, b) => a.nombre.localeCompare(b.nombre));
 	}
 }
