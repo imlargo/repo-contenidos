@@ -1,25 +1,21 @@
 import type { SearchResult } from '../types/types';
 import type { Asignatura } from '$src/lib/types/asignatura';
 
-const { default: jsonData } = await import('./data.json');
+import { supabase } from '$services/supabase';
 
 class DBController {
-	asignaturas: Asignatura[];
-
-	constructor() {
-		this.asignaturas = jsonData as Asignatura[];
+	tables = {
+		ASIGNATURAS: 'asignaturas',
 	}
 
 	async getAsignatura(searchCodigo: string): Promise<Asignatura | null> {
-		const asignatura: Asignatura = this.asignaturas.find(
-			({ codigo }) => codigo === searchCodigo
-		) as Asignatura;
+		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select().eq('codigo', searchCodigo)
 
-		if (asignatura === undefined) {
+		if (data === null || data.length === 0) {
 			return null;
 		}
 
-		return asignatura;
+		return data[0] as Asignatura;
 	}
 
 	async createAsignatura(asignatura: Asignatura): Promise<boolean> {
@@ -31,11 +27,8 @@ class DBController {
 	}
 
 	async searchAsignaturas(searchText: string): Promise<SearchResult[]> {
-		const asignaturas = this.asignaturas.filter(({ nombre }) =>
-			nombre.toLowerCase().includes(searchText.toLowerCase())
-		);
-
-		return asignaturas.sort((a, b) => a.nombre.localeCompare(b.nombre));
+		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select().textSearch('codigo,nombre,uab,vigente', `'${searchText}'`)
+		return (data as SearchResult[]).sort((a, b) => a.nombre.localeCompare(b.nombre));
 	}
 }
 
