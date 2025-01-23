@@ -35,10 +35,9 @@ class DBController {
 	}
 
 	async searchAsignaturas(searchText: string): Promise<SearchResult[]> {
-		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select().textSearch('codigo,nombre,vigente', `'${searchText}'`)
+		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select().textSearch('nombre', `'${searchText}'`)
 
 		if (error !== null) {
-			console.log(error);
 			return [];
 		}
 
