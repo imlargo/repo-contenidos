@@ -1,5 +1,4 @@
-import type { SearchResult } from '../types/types';
-import type { Asignatura } from '$src/lib/types/asignatura';
+import type { Asignatura, SearchResult } from '$src/lib/types/asignatura';
 
 import { supabase } from '$services/supabase';
 
