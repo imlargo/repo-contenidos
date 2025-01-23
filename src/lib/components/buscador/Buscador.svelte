@@ -80,7 +80,7 @@
 							<Table.Row>
 								<Table.Cell class="font-medium">{resultadoBusqueda.codigo}</Table.Cell>
 								<Table.Cell>{resultadoBusqueda.nombre}</Table.Cell>
-								<Table.Cell>{resultadoBusqueda.uab}</Table.Cell>
+								<Table.Cell>{resultadoBusqueda.uab.nombre}</Table.Cell>
 								<Table.Cell class="flex items-center justify-center text-center text-lg">
 									<i
 										class="flex w-full text-center bi"

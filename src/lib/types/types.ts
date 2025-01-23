@@ -1,6 +1,9 @@
+type Uab = {
+	nombre: string;
+}
 export interface SearchResult {
 	codigo: string;
 	nombre: string;
-	uab: string;
+	uab: Uab;
 	vigente: boolean;
 }
