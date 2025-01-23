@@ -29,7 +29,13 @@ class DBController {
 		return true;
 	}
 
-	async updateAsignatura(codigo: string, asignatura: Asignatura): Promise<boolean> {
+	async updateAsignatura(id: number, asignatura: Partial<Asignatura>): Promise<boolean> {
+		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).update(asignatura).eq('id', id).select();
+
+		if (error !== null || data === null || data.length === 0) {
+			return false;
+		}
+
 		return true;
 	}
 
