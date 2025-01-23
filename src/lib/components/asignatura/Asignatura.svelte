@@ -226,7 +226,9 @@
 			<span>Descripción</span>
 		</h3>
 
-		<button class="btn-save">Guardar</button>
+		<button onclick={() => {
+			storeAsignatura.updateAsignatura(asignatura.id, { descripcion: asignatura.descripcion });
+		}} class="btn-save">Guardar</button>
 	</div>
 
 	{#if editMode}
@@ -257,7 +259,9 @@
 			<span>Contenido</span>
 		</h3>
 
-		<button class="btn-save">Guardar</button>
+		<button onclick={() => {
+			storeAsignatura.updateAsignatura(asignatura.id, { contenido: asignatura.contenido });
+		}} class="btn-save">Guardar</button>
 	</div>
 
 	{#if editMode}
