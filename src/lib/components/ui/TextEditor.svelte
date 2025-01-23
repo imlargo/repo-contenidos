@@ -1,9 +1,10 @@
 <script lang="ts">
 	type Props = {
 		value: string;
+		onchange?: (value: string) => void;
 	};
 
-	let { value = $bindable() }: Props = $props();
+	let { value = $bindable(), onchange }: Props = $props();
 	import { HtmlToMarkdown, MarkdownToHtml } from '$src/lib/utils/markdown-service';
 	import { browser } from '$app/environment';
 
@@ -22,12 +23,12 @@
 
 			quill.on('text-change', function (delta, source) {
 				const htmlContent = quill.getSemanticHTML();
-				console.log(htmlContent);
-
 				const parsedMd = HtmlToMarkdown(htmlContent);
-				console.log(parsedMd);
-
 				value = parsedMd;
+
+				if (onchange) {
+					onchange(parsedMd);
+				}
 			});
 		}
 	}

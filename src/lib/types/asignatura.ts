@@ -1,7 +1,12 @@
+type Uab = {
+	nombre: string;
+}
+
 export interface Asignatura {
+	id: number;
 	codigo: string;
 	nombre: string;
-	uab: string;
+	uab: Uab;
 	vigente: boolean;
 	horasPresenciales: number;
 	horasNoPresenciales: number;
@@ -16,4 +21,11 @@ export interface Asignatura {
 export interface Plan {
 	codigo: string;
 	nombre: string;
+}
+
+export interface SearchResult {
+	codigo: string;
+	nombre: string;
+	uab: Uab;
+	vigente: boolean;
 }

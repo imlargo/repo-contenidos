@@ -1,41 +1,52 @@
-import type { SearchResult } from '../types/types';
-import type { Asignatura } from '$src/lib/types/asignatura';
+import type { Asignatura, SearchResult } from '$src/lib/types/asignatura';
 
-const { default: jsonData } = await import('./data.json');
+import { supabase } from '$services/supabase';
 
 class DBController {
-	asignaturas: Asignatura[];
-
-	constructor() {
-		this.asignaturas = jsonData as Asignatura[];
+	tables = {
+		ASIGNATURAS: 'asignaturas',
 	}
 
 	async getAsignatura(searchCodigo: string): Promise<Asignatura | null> {
-		const asignatura: Asignatura = this.asignaturas.find(
-			({ codigo }) => codigo === searchCodigo
-		) as Asignatura;
+		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select().eq('codigo', searchCodigo)
+		.select(`
+			*,
+			uab(nombre)
+		`)
 
-		if (asignatura === undefined) {
+		if (error !== null) {
 			return null;
 		}
 
-		return asignatura;
+		if (data === null || data.length === 0) {
+			return null;
+		}
+
+		return data[0] as Asignatura;
 	}
 
 	async createAsignatura(asignatura: Asignatura): Promise<boolean> {
 		return true;
 	}
 
-	async updateAsignatura(codigo: string, asignatura: Asignatura): Promise<boolean> {
+	async updateAsignatura(id: number, asignatura: Partial<Asignatura>): Promise<boolean> {
+		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).update(asignatura).eq('id', id).select();
+
+		if (error !== null || data === null || data.length === 0) {
+			return false;
+		}
+
 		return true;
 	}
 
 	async searchAsignaturas(searchText: string): Promise<SearchResult[]> {
-		const asignaturas = this.asignaturas.filter(({ nombre }) =>
-			nombre.toLowerCase().includes(searchText.toLowerCase())
-		);
+		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select('codigo,nombre,uab(nombre),vigente').textSearch('nombre', `'${searchText}'`)
 
-		return asignaturas.sort((a, b) => a.nombre.localeCompare(b.nombre));
+		if (error !== null) {
+			return [];
+		}
+
+		return (data as SearchResult[]).sort((a, b) => a.nombre.localeCompare(b.nombre));
 	}
 }
 
