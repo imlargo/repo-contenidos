@@ -10,6 +10,10 @@ class DBController {
 
 	async getAsignatura(searchCodigo: string): Promise<Asignatura | null> {
 		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select().eq('codigo', searchCodigo)
+		.select(`
+			*,
+			uab(nombre)
+		`)
 
 		if (error !== null) {
 			console.log(error);
@@ -19,6 +23,9 @@ class DBController {
 		if (data === null || data.length === 0) {
 			return null;
 		}
+
+		console.log(data);
+		
 
 		return data[0] as Asignatura;
 	}
