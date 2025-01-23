@@ -16,16 +16,12 @@ class DBController {
 		`)
 
 		if (error !== null) {
-			console.log(error);
 			return null;
 		}
 
 		if (data === null || data.length === 0) {
 			return null;
 		}
-
-		console.log(data);
-		
 
 		return data[0] as Asignatura;
 	}

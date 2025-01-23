@@ -49,7 +49,7 @@
 			{/if}
 		</div>
 
-		<p class="text-zinc-500">{storeAsignatura.asignatura.uab}</p>
+		<p class="text-zinc-500">{storeAsignatura.asignatura.uab.nombre}</p>
 	</div>
 
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-4">

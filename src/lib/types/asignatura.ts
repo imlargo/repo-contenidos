@@ -1,7 +1,11 @@
+type Uab = {
+	nombre: string;
+}
+
 export interface Asignatura {
 	codigo: string;
 	nombre: string;
-	uab: string;
+	uab: Uab;
 	vigente: boolean;
 	horasPresenciales: number;
 	horasNoPresenciales: number;
