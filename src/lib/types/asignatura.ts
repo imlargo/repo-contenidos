@@ -3,6 +3,7 @@ type Uab = {
 }
 
 export interface Asignatura {
+	id: number;
 	codigo: string;
 	nombre: string;
 	uab: Uab;
