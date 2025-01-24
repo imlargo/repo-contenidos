@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { expresionAfirmacion } from '$src/lib/utils/enums';
-    import type { Asignatura } from '$src/lib/types/asignatura';
+	import type { Asignatura } from '$src/lib/types/asignatura';
 
 	type Props = {
 		asignatura: Asignatura;
+		allowEdit?: boolean;
 	};
-	const { asignatura }: Props = $props();
+	const { asignatura, allowEdit = false }: Props = $props();
 
 	import { MarkdownToHtml } from '$src/lib/utils/markdown-service';
 	import Markdown from '$src/lib/components/ui/Markdown.svelte';
@@ -16,40 +17,82 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import TextEditor from '$src/lib/components/ui/TextEditor.svelte';
+	import { Button } from '$lib/components/ui/button';
 
 	import { StoreAsignatura } from '$src/lib/stores/asignatura.svelte';
+	import type { SvelteComponent } from 'svelte';
 	const storeAsignatura = new StoreAsignatura(asignatura);
 
 	let editMode = $state(false);
+
+	let contenidoEditor: TextEditor;
+	let descripcionEditor: TextEditor;
+
+	function handleUpdateFromAtenea(newAsignatura: Asignatura) {
+		contenidoEditor.replaceContent(newAsignatura.contenido);
+		descripcionEditor.replaceContent(newAsignatura.descripcion);
+	}
 </script>
 
 <Section>
 	<div class="mb-8">
 		<div class="flex justify-between">
-			<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3 items-center">
-				<span>{storeAsignatura.asignatura.nombre}</span>
-				<span class="text-zinc-400 font-light">{storeAsignatura.asignatura.codigo}</span>
-				<button
-					aria-label="Toggle edit mode"
-					class="text-xl leading-none"
-					onclick={() => {
-						editMode = !editMode;
-					}}
-				>
-					{#if editMode}
-						<i class="bi bi-eye"></i>
-					{:else}
-						<i class="bi bi-pencil-square"></i>
-					{/if}
-				</button>
-			</h3>
+			<div class="flex items-center gap-4">
+				<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3 items-center">
+					<span>{storeAsignatura.asignatura.nombre}</span>
+					<span class="text-zinc-400 font-light">{storeAsignatura.asignatura.codigo}</span>
+				</h3>
+
+				{#if allowEdit}
+					<div>
+						<Button
+							variant="ghost"
+							class="text-xl leading-none"
+							onclick={() => {
+								editMode = !editMode;
+							}}
+						>
+							{#if editMode}
+								<i class="bi bi-eye"></i>
+							{:else}
+								<i class="bi bi-pencil-square"></i>
+							{/if}
+						</Button>
+
+						{#if editMode}
+							<Button
+								variant="ghost"
+								class="text-xl leading-none"
+								onclick={() => {
+									storeAsignatura.updateFromAtenea(handleUpdateFromAtenea);
+								}}
+							>
+								<i class="bi bi-cloud-arrow-down"></i>
+							</Button>
+						{/if}
+					</div>
+				{/if}
+			</div>
 
 			{#if editMode}
-				<button disabled class="btn-save">Guardar</button>
+				<div>
+					<Button
+						onclick={() => {
+							storeAsignatura.restoreInitialAsignaturaDetails();
+						}}
+						variant="secondary">Cancelar</Button
+					>
+					<Button
+						disabled={!storeAsignatura.hasChangedDetails()}
+						onclick={() => {
+							storeAsignatura.updateAsignaturaDetails();
+						}}>Guardar</Button
+					>
+				</div>
 			{/if}
 		</div>
 
-		<p class="text-zinc-500">{storeAsignatura.asignatura.uab}</p>
+		<p class="text-zinc-500">{storeAsignatura.asignatura.uab.nombre}</p>
 	</div>
 
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -59,7 +102,11 @@
 			{/snippet}
 			{#snippet data()}
 				{#if editMode}
-					<Input type="number" placeholder="Créditos" bind:value={storeAsignatura.asignatura.creditos} />
+					<Input
+						type="number"
+						placeholder="Créditos"
+						bind:value={storeAsignatura.asignatura.creditos}
+					/>
 				{:else}
 					<p>{storeAsignatura.asignatura.creditos.toString()}</p>
 				{/if}
@@ -83,7 +130,9 @@
 						value={storeAsignatura.asignatura.vigente as unknown as string}
 						onValueChange={(value: unknown) => {
 							if (value !== undefined) {
-								storeAsignatura.asignatura.vigente = afirmacionToBool(value as unknown as expresionAfirmacion);
+								storeAsignatura.asignatura.vigente = afirmacionToBool(
+									value as unknown as expresionAfirmacion
+								);
 							}
 						}}
 					>
@@ -135,7 +184,9 @@
 						value={storeAsignatura.asignatura.electiva as unknown as string}
 						onValueChange={(value) => {
 							if (value !== undefined) {
-								storeAsignatura.asignatura.electiva = afirmacionToBool(value as unknown as expresionAfirmacion);
+								storeAsignatura.asignatura.electiva = afirmacionToBool(
+									value as unknown as expresionAfirmacion
+								);
 							}
 						}}
 					>
@@ -176,7 +227,9 @@
 						value={storeAsignatura.asignatura.validable as unknown as string}
 						onValueChange={(value) => {
 							if (value !== undefined) {
-								storeAsignatura.asignatura.validable = afirmacionToBool(value as unknown as expresionAfirmacion);
+								storeAsignatura.asignatura.validable = afirmacionToBool(
+									value as unknown as expresionAfirmacion
+								);
 							}
 						}}
 					>
@@ -226,13 +279,34 @@
 			<span>Descripción</span>
 		</h3>
 
-		<button class="btn-save">Guardar</button>
+		{#if editMode}
+			<div>
+				<Button
+					onclick={() => {
+						storeAsignatura.restoreInitialAsignatura('descripcion');
+						descripcionEditor.replaceContent(storeAsignatura.asignatura.descripcion);
+					}}
+					variant="secondary">Cancelar</Button
+				>
+				<Button
+					disabled={storeAsignatura.asignatura.descripcion === '' ||
+						storeAsignatura.asignatura.descripcion ===
+							storeAsignatura.initialAsignatura.descripcion}
+					onclick={() => {
+						storeAsignatura.updateAsignatura({ descripcion: storeAsignatura.asignatura.descripcion });
+					}}>Guardar</Button
+				>
+			</div>
+		{/if}
 	</div>
 
 	{#if editMode}
 		<div class="grid grid-cols-2 gap-x-8">
 			<div class="flex flex-col">
-				<TextEditor bind:value={storeAsignatura.asignatura.descripcion} />
+				<TextEditor
+					bind:this={descripcionEditor}
+					bind:value={storeAsignatura.asignatura.descripcion}
+				/>
 			</div>
 
 			<div>
@@ -257,13 +331,30 @@
 			<span>Contenido</span>
 		</h3>
 
-		<button class="btn-save">Guardar</button>
+		{#if editMode}
+			<div>
+				<Button
+					onclick={() => {
+						storeAsignatura.restoreInitialAsignatura('contenido');
+						contenidoEditor.replaceContent(storeAsignatura.asignatura.contenido);
+					}}
+					variant="secondary">Cancelar</Button
+				>
+				<Button
+					disabled={storeAsignatura.asignatura.contenido === '' ||
+						storeAsignatura.asignatura.contenido === storeAsignatura.initialAsignatura.contenido}
+					onclick={() => {
+						storeAsignatura.updateAsignatura({ contenido: storeAsignatura.asignatura.contenido });
+					}}>Guardar</Button
+				>
+			</div>
+		{/if}
 	</div>
 
 	{#if editMode}
 		<div class="grid grid-cols-2 gap-x-8">
 			<div class="flex flex-col">
-				<TextEditor bind:value={storeAsignatura.asignatura.contenido} />
+				<TextEditor bind:this={contenidoEditor} bind:value={storeAsignatura.asignatura.contenido} />
 			</div>
 
 			<div class="flex flex-col text-wrap">
@@ -304,14 +395,5 @@
 <style lang="scss">
 	.slot-info {
 		@apply rounded-md hover:bg-zinc-100 py-2 px-3;
-	}
-
-	.btn-save {
-		@apply bg-black text-white font-semibold px-4 py-1 rounded-md cursor-pointer;
-
-		&:disabled,
-		&[disabled] {
-			@apply bg-zinc-100 text-zinc-600 cursor-auto;
-		}
 	}
 </style>

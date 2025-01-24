@@ -1,4 +1,4 @@
-import type { SearchResult } from '$src/lib/types/types';
+import type { SearchResult } from '$src/lib/types/asignatura';
 import { SearchOptions } from '$src/lib/utils/enums';
 import { goto } from '$app/navigation';
 
