@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { expresionAfirmacion } from '$src/lib/utils/enums';
-    import type { Asignatura } from '$src/lib/types/asignatura';
+	import type { Asignatura } from '$src/lib/types/asignatura';
 
 	type Props = {
 		asignatura: Asignatura;
@@ -59,7 +59,11 @@
 			{/snippet}
 			{#snippet data()}
 				{#if editMode}
-					<Input type="number" placeholder="Créditos" bind:value={storeAsignatura.asignatura.creditos} />
+					<Input
+						type="number"
+						placeholder="Créditos"
+						bind:value={storeAsignatura.asignatura.creditos}
+					/>
 				{:else}
 					<p>{storeAsignatura.asignatura.creditos.toString()}</p>
 				{/if}
@@ -83,7 +87,9 @@
 						value={storeAsignatura.asignatura.vigente as unknown as string}
 						onValueChange={(value: unknown) => {
 							if (value !== undefined) {
-								storeAsignatura.asignatura.vigente = afirmacionToBool(value as unknown as expresionAfirmacion);
+								storeAsignatura.asignatura.vigente = afirmacionToBool(
+									value as unknown as expresionAfirmacion
+								);
 							}
 						}}
 					>
@@ -135,7 +141,9 @@
 						value={storeAsignatura.asignatura.electiva as unknown as string}
 						onValueChange={(value) => {
 							if (value !== undefined) {
-								storeAsignatura.asignatura.electiva = afirmacionToBool(value as unknown as expresionAfirmacion);
+								storeAsignatura.asignatura.electiva = afirmacionToBool(
+									value as unknown as expresionAfirmacion
+								);
 							}
 						}}
 					>
@@ -176,7 +184,9 @@
 						value={storeAsignatura.asignatura.validable as unknown as string}
 						onValueChange={(value) => {
 							if (value !== undefined) {
-								storeAsignatura.asignatura.validable = afirmacionToBool(value as unknown as expresionAfirmacion);
+								storeAsignatura.asignatura.validable = afirmacionToBool(
+									value as unknown as expresionAfirmacion
+								);
 							}
 						}}
 					>
@@ -226,9 +236,14 @@
 			<span>Descripción</span>
 		</h3>
 
-		<button onclick={() => {
-			storeAsignatura.updateAsignatura(asignatura.id, { descripcion: asignatura.descripcion });
-		}} class="btn-save">Guardar</button>
+		{#if editMode}
+			<button
+				onclick={() => {
+					storeAsignatura.updateAsignatura(asignatura.id, { descripcion: asignatura.descripcion });
+				}}
+				class="btn-save">Guardar</button
+			>
+		{/if}
 	</div>
 
 	{#if editMode}
@@ -259,9 +274,14 @@
 			<span>Contenido</span>
 		</h3>
 
-		<button onclick={() => {
-			storeAsignatura.updateAsignatura(asignatura.id, { contenido: asignatura.contenido });
-		}} class="btn-save">Guardar</button>
+		{#if editMode}
+			<button
+				onclick={() => {
+					storeAsignatura.updateAsignatura(asignatura.id, { contenido: asignatura.contenido });
+				}}
+				class="btn-save">Guardar</button
+			>
+		{/if}
 	</div>
 
 	{#if editMode}
