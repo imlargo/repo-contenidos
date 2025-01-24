@@ -18,5 +18,5 @@
 		</a>
 
 	</div>
-	<Asignatura asignatura={asignatura} />
+	<Asignatura asignatura={asignatura} allowEdit />
 </main>

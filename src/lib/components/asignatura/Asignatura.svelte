@@ -4,8 +4,9 @@
 
 	type Props = {
 		asignatura: Asignatura;
+		allowEdit?: boolean;
 	};
-	const { asignatura }: Props = $props();
+	const { asignatura, allowEdit = false }: Props = $props();
 
 	import { MarkdownToHtml } from '$src/lib/utils/markdown-service';
 	import Markdown from '$src/lib/components/ui/Markdown.svelte';
@@ -34,38 +35,40 @@
 			<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3 items-center">
 				<span>{storeAsignatura.asignatura.nombre}</span>
 				<span class="text-zinc-400 font-light">{storeAsignatura.asignatura.codigo}</span>
-				<button
-					aria-label="Toggle edit mode"
-					class="text-xl leading-none"
-					onclick={() => {
-						editMode = !editMode;
-					}}
-				>
-					{#if editMode}
-						<i class="bi bi-eye"></i>
-					{:else}
-						<i class="bi bi-pencil-square"></i>
-					{/if}
-				</button>
+
+				{#if allowEdit}
+					<button
+						aria-label="Toggle edit mode"
+						class="text-xl leading-none"
+						onclick={() => {
+							editMode = !editMode;
+						}}
+					>
+						{#if editMode}
+							<i class="bi bi-eye"></i>
+						{:else}
+							<i class="bi bi-pencil-square"></i>
+						{/if}
+					</button>
+				{/if}
 			</h3>
 
 			{#if editMode}
-			<div>
-				<Button
-					onclick={() => {
-						storeAsignatura.restoreInitialAsignaturaDetails();
-					}}
-					 variant="secondary">Cancelar</Button
-				>
-				<Button
-					disabled={!storeAsignatura.hasChangedDetails()}
-					onclick={() => {
-						storeAsignatura.updateAsignaturaDetails();
-					}}
-					>Guardar</Button
-				>
-			</div>
-		{/if}
+				<div>
+					<Button
+						onclick={() => {
+							storeAsignatura.restoreInitialAsignaturaDetails();
+						}}
+						variant="secondary">Cancelar</Button
+					>
+					<Button
+						disabled={!storeAsignatura.hasChangedDetails()}
+						onclick={() => {
+							storeAsignatura.updateAsignaturaDetails();
+						}}>Guardar</Button
+					>
+				</div>
+			{/if}
 		</div>
 
 		<p class="text-zinc-500">{storeAsignatura.asignatura.uab.nombre}</p>
@@ -259,17 +262,18 @@
 			<div>
 				<Button
 					onclick={() => {
-						storeAsignatura.restoreInitialAsignatura("descripcion");
+						storeAsignatura.restoreInitialAsignatura('descripcion');
 						descripcionEditor.replaceContent(storeAsignatura.asignatura.descripcion);
 					}}
-					 variant="secondary">Cancelar</Button
+					variant="secondary">Cancelar</Button
 				>
 				<Button
-					disabled={storeAsignatura.asignatura.descripcion === '' || storeAsignatura.asignatura.descripcion === storeAsignatura.initialAsignatura.descripcion}
+					disabled={storeAsignatura.asignatura.descripcion === '' ||
+						storeAsignatura.asignatura.descripcion ===
+							storeAsignatura.initialAsignatura.descripcion}
 					onclick={() => {
 						storeAsignatura.updateAsignatura({ descripcion: asignatura.descripcion });
-					}}
-					>Guardar</Button
+					}}>Guardar</Button
 				>
 			</div>
 		{/if}
@@ -278,7 +282,10 @@
 	{#if editMode}
 		<div class="grid grid-cols-2 gap-x-8">
 			<div class="flex flex-col">
-				<TextEditor bind:this={descripcionEditor} bind:value={storeAsignatura.asignatura.descripcion} />
+				<TextEditor
+					bind:this={descripcionEditor}
+					bind:value={storeAsignatura.asignatura.descripcion}
+				/>
 			</div>
 
 			<div>
@@ -307,17 +314,17 @@
 			<div>
 				<Button
 					onclick={() => {
-						storeAsignatura.restoreInitialAsignatura("contenido");
+						storeAsignatura.restoreInitialAsignatura('contenido');
 						contenidoEditor.replaceContent(storeAsignatura.asignatura.contenido);
 					}}
-					 variant="secondary">Cancelar</Button
+					variant="secondary">Cancelar</Button
 				>
 				<Button
-					disabled={storeAsignatura.asignatura.contenido === '' || storeAsignatura.asignatura.contenido === storeAsignatura.initialAsignatura.contenido}
+					disabled={storeAsignatura.asignatura.contenido === '' ||
+						storeAsignatura.asignatura.contenido === storeAsignatura.initialAsignatura.contenido}
 					onclick={() => {
 						storeAsignatura.updateAsignatura({ contenido: asignatura.contenido });
-					}}
-					>Guardar</Button
+					}}>Guardar</Button
 				>
 			</div>
 		{/if}
@@ -368,6 +375,4 @@
 	.slot-info {
 		@apply rounded-md hover:bg-zinc-100 py-2 px-3;
 	}
-
-
 </style>
