@@ -9,10 +9,7 @@ class DBController {
 
 	async getAsignatura(searchCodigo: string): Promise<Asignatura | null> {
 		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).select().eq('codigo', searchCodigo)
-		.select(`
-			*,
-			uab(nombre)
-		`)
+		.select(`*, uab(nombre)`)
 
 		if (error !== null) {
 			return null;
@@ -30,7 +27,7 @@ class DBController {
 	}
 
 	async updateAsignatura(id: number, asignatura: Partial<Asignatura>): Promise<boolean> {
-		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).update(asignatura).eq('id', id).select();
+		const { data, error } = await supabase.from(this.tables.ASIGNATURAS).update(asignatura).eq('id', id).select(`*, uab(nombre)`)
 
 		if (error !== null || data === null || data.length === 0) {
 			return false;
