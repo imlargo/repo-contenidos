@@ -12,5 +12,12 @@
 </script>
 
 <main class="flex flex-col gap-5">
+	<div class="">
+		<a href="/">
+			<i class="bi bi-arrow-left"></i>
+			<span>Regresar</span>
+		</a>
+
+	</div>
 	<Asignatura asignatura={asignatura} />
 </main>
