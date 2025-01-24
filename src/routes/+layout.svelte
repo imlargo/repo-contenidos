@@ -9,6 +9,7 @@
 		children: Snippet;
 	};
 	const { children }: Props = $props();
+	import { Toaster } from "$lib/components/ui/sonner/index.js";
 </script>
 
 <Nav />
@@ -18,3 +19,5 @@
 </div>
 
 <Footer />
+
+<Toaster />
