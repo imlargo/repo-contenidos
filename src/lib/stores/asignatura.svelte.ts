@@ -99,11 +99,6 @@ export class StoreAsignatura {
 			descripcion: asignaturaAtenea.descripcion,
 			contenido: asignaturaAtenea.contenido,
 		};
-        
-        if (areEqualObjectsDeep({ ...this.asignatura, ...data }, this.asignatura)) {
-            toast.success('Los datos de la asignatura ya se encuentran al día');
-            return;
-        }
 
         this.asignatura = { ...this.asignatura, ...data };
         callback(this.asignatura);
