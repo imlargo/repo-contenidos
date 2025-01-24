@@ -1,4 +1,5 @@
-type Uab = {
+export type Uab = {
+	id?: number;
 	nombre: string;
 }
 
