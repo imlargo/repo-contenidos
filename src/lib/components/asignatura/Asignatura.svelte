@@ -50,8 +50,22 @@
 			</h3>
 
 			{#if editMode}
-				<Button disabled class="btn-save">Guardar</Button>
-			{/if}
+			<div>
+				<Button
+					onclick={() => {
+						storeAsignatura.restoreInitialAsignaturaDetails();
+					}}
+					 variant="secondary">Cancelar</Button
+				>
+				<Button
+					disabled={!storeAsignatura.hasChangedDetails()}
+					onclick={() => {
+						storeAsignatura.updateAsignaturaDetails();
+					}}
+					>Guardar</Button
+				>
+			</div>
+		{/if}
 		</div>
 
 		<p class="text-zinc-500">{storeAsignatura.asignatura.uab.nombre}</p>
@@ -248,14 +262,14 @@
 						storeAsignatura.restoreInitialAsignatura("descripcion");
 						descripcionEditor.replaceContent(storeAsignatura.asignatura.descripcion);
 					}}
-					class="btn-save" variant="secondary">Cancelar</Button
+					 variant="secondary">Cancelar</Button
 				>
 				<Button
 					disabled={storeAsignatura.asignatura.descripcion === '' || storeAsignatura.asignatura.descripcion === storeAsignatura.initialAsignatura.descripcion}
 					onclick={() => {
-						storeAsignatura.updateAsignatura(asignatura.id, { descripcion: asignatura.descripcion });
+						storeAsignatura.updateAsignatura({ descripcion: asignatura.descripcion });
 					}}
-					class="btn-save">Guardar</Button
+					>Guardar</Button
 				>
 			</div>
 		{/if}
@@ -296,14 +310,14 @@
 						storeAsignatura.restoreInitialAsignatura("contenido");
 						contenidoEditor.replaceContent(storeAsignatura.asignatura.contenido);
 					}}
-					class="btn-save" variant="secondary">Cancelar</Button
+					 variant="secondary">Cancelar</Button
 				>
 				<Button
 					disabled={storeAsignatura.asignatura.contenido === '' || storeAsignatura.asignatura.contenido === storeAsignatura.initialAsignatura.contenido}
 					onclick={() => {
-						storeAsignatura.updateAsignatura(asignatura.id, { contenido: asignatura.contenido });
+						storeAsignatura.updateAsignatura({ contenido: asignatura.contenido });
 					}}
-					class="btn-save">Guardar</Button
+					>Guardar</Button
 				>
 			</div>
 		{/if}
@@ -355,12 +369,5 @@
 		@apply rounded-md hover:bg-zinc-100 py-2 px-3;
 	}
 
-	.btn-save {
-		@apply bg-black text-white font-semibold px-4 py-1 rounded-md cursor-pointer;
 
-		&:disabled,
-		&[disabled] {
-			@apply bg-zinc-100 text-zinc-600 cursor-auto;
-		}
-	}
 </style>
