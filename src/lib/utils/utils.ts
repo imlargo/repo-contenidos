@@ -7,7 +7,6 @@ export function boolToAfirmacion(bool: boolean) {
 export function afirmacionToBool(afirmacion: expresionAfirmacion) {
 	return afirmacion === expresionAfirmacion.SI;
 }
-
 export function areEqualObjectsDeep<T extends Record<string, any>>(
 	obj1: T,
 	obj2: T

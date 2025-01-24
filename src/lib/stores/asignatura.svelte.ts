@@ -1,9 +1,9 @@
 import { expresionAfirmacion } from '$src/lib/utils/enums';
 import type { Asignatura } from '$src/lib/types/asignatura';
-import { boolToAfirmacion, afirmacionToBool } from '$src/lib/utils/utils';
+import { boolToAfirmacion, afirmacionToBool, areEqualObjectsDeep } from '$src/lib/utils/utils';
 import { dbController } from '$db/db';
 import { toast } from "svelte-sonner";
-import { AteneaService } from '../services/atenea';
+import { AteneaService } from '$services/atenea';
 
 const detailsFields: (keyof Asignatura)[] = [
     "vigente",
@@ -87,7 +87,9 @@ export class StoreAsignatura {
         const data: Partial<Asignatura> = {
 			codigo: asignaturaAtenea.codigo,
 			nombre: asignaturaAtenea.nombre,
-			uab: uab,
+			uab: {
+                nombre: uab.nombre,
+            },
 			vigente: asignaturaAtenea.vigente,
 			horasPresenciales: asignaturaAtenea.horasPresenciales,
 			horasNoPresenciales: asignaturaAtenea.horasNoPresenciales,
@@ -97,6 +99,11 @@ export class StoreAsignatura {
 			descripcion: asignaturaAtenea.descripcion,
 			contenido: asignaturaAtenea.contenido,
 		};
+        
+        if (areEqualObjectsDeep({ ...this.asignatura, ...data }, this.asignatura)) {
+            toast.success('Los datos de la asignatura ya se encuentran al día');
+            return;
+        }
 
         this.asignatura = { ...this.asignatura, ...data };
         callback(this.asignatura);
