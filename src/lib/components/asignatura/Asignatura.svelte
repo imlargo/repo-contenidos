@@ -27,31 +27,52 @@
 
 	let contenidoEditor: TextEditor;
 	let descripcionEditor: TextEditor;
+
+	function handleUpdateFromAtenea(newAsignatura: Asignatura) {
+		contenidoEditor.replaceContent(newAsignatura.contenido);
+		descripcionEditor.replaceContent(newAsignatura.descripcion);
+	}
 </script>
 
 <Section>
 	<div class="mb-8">
 		<div class="flex justify-between">
-			<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3 items-center">
-				<span>{storeAsignatura.asignatura.nombre}</span>
-				<span class="text-zinc-400 font-light">{storeAsignatura.asignatura.codigo}</span>
+			<div class="flex items-center gap-4">
+				<h3 class="font-semibold text-3xl mb-1 flex justify-between gap-3 items-center">
+					<span>{storeAsignatura.asignatura.nombre}</span>
+					<span class="text-zinc-400 font-light">{storeAsignatura.asignatura.codigo}</span>
+				</h3>
 
 				{#if allowEdit}
-					<button
-						aria-label="Toggle edit mode"
-						class="text-xl leading-none"
-						onclick={() => {
-							editMode = !editMode;
-						}}
-					>
+					<div>
+						<Button
+							variant="ghost"
+							class="text-xl leading-none"
+							onclick={() => {
+								editMode = !editMode;
+							}}
+						>
+							{#if editMode}
+								<i class="bi bi-eye"></i>
+							{:else}
+								<i class="bi bi-pencil-square"></i>
+							{/if}
+						</Button>
+
 						{#if editMode}
-							<i class="bi bi-eye"></i>
-						{:else}
-							<i class="bi bi-pencil-square"></i>
+							<Button
+								variant="ghost"
+								class="text-xl leading-none"
+								onclick={() => {
+									storeAsignatura.updateFromAtenea(handleUpdateFromAtenea);
+								}}
+							>
+								<i class="bi bi-cloud-arrow-down"></i>
+							</Button>
 						{/if}
-					</button>
+					</div>
 				{/if}
-			</h3>
+			</div>
 
 			{#if editMode}
 				<div>
@@ -272,7 +293,7 @@
 						storeAsignatura.asignatura.descripcion ===
 							storeAsignatura.initialAsignatura.descripcion}
 					onclick={() => {
-						storeAsignatura.updateAsignatura({ descripcion: asignatura.descripcion });
+						storeAsignatura.updateAsignatura({ descripcion: storeAsignatura.asignatura.descripcion });
 					}}>Guardar</Button
 				>
 			</div>
@@ -323,7 +344,7 @@
 					disabled={storeAsignatura.asignatura.contenido === '' ||
 						storeAsignatura.asignatura.contenido === storeAsignatura.initialAsignatura.contenido}
 					onclick={() => {
-						storeAsignatura.updateAsignatura({ contenido: asignatura.contenido });
+						storeAsignatura.updateAsignatura({ contenido: storeAsignatura.asignatura.contenido });
 					}}>Guardar</Button
 				>
 			</div>
