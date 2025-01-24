@@ -1,10 +1,10 @@
-import type { Asignatura, SearchResult } from '$src/lib/types/asignatura';
-
+import type { Asignatura, SearchResult, AteneaAsignatura } from '$src/lib/types/asignatura';
 import { supabase } from '$services/supabase';
 
 class DBController {
 	tables = {
 		ASIGNATURAS: 'asignaturas',
+		UABS: 'uabs',
 	}
 
 	async getAsignatura(searchCodigo: string): Promise<Asignatura | null> {
@@ -44,6 +44,36 @@ class DBController {
 		}
 
 		return (data as SearchResult[]).sort((a, b) => a.nombre.localeCompare(b.nombre));
+	}
+
+	async createAsignaturaFromAtenea(ateneaAsignatura: AteneaAsignatura): Promise<Asignatura | null> {
+		const { data: uab, error } = await supabase.from(this.tables.UABS).select().eq('nombre', ateneaAsignatura.uab).single()
+
+		if (error !== null) return null;
+		
+		const asignatura: Partial<Asignatura> = {
+			codigo: ateneaAsignatura.codigo,
+			nombre: ateneaAsignatura.nombre,
+			uab: uab.id,
+			vigente: ateneaAsignatura.vigente,
+			horasPresenciales: ateneaAsignatura.horasPresenciales,
+			horasNoPresenciales: ateneaAsignatura.horasNoPresenciales,
+			creditos: ateneaAsignatura.creditos,
+			validable: ateneaAsignatura.validable,
+			electiva: ateneaAsignatura.electiva,
+			descripcion: ateneaAsignatura.descripcion,
+			contenido: ateneaAsignatura.contenido,
+		}
+
+		const { data: createdAsignatura, error: error2 } = await supabase.from(this.tables.ASIGNATURAS).insert([asignatura]).select(`*, uab(nombre)`)
+
+		if (error2 !== null || createdAsignatura === null || createdAsignatura.length === 0) {
+			console.log(error2);
+			
+			return null;
+		}
+
+		return createdAsignatura[0] as Asignatura;
 	}
 }
 
