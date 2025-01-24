@@ -29,3 +29,17 @@ export interface SearchResult {
 	uab: Uab;
 	vigente: boolean;
 }
+
+export interface AteneaAsignatura {
+    codigo: string;
+    nombre: string;
+    uab: string;
+    vigente: boolean;
+    horasPresenciales: number;
+    horasNoPresenciales: number;
+    creditos: number;
+    validable: boolean;
+    electiva: boolean;
+    descripcion: string;
+    contenido: string;
+}
