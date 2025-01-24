@@ -62,6 +62,9 @@ export class StoreAsignatura {
         }
 
         toast.success('Asignatura actualizada correctamente');
-        this.initialAsignatura = { ...this.asignatura };
+
+        for (const field of Object.keys(data)) {
+            (this.initialAsignatura[field as keyof Asignatura] as any) = data[field as keyof Asignatura];
+        }
     }
 }
