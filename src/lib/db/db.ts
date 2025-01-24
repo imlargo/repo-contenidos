@@ -1,4 +1,4 @@
-import type { Asignatura, SearchResult, AteneaAsignatura } from '$src/lib/types/asignatura';
+import type { Asignatura, SearchResult, AteneaAsignatura, Uab } from '$src/lib/types/asignatura';
 import { supabase } from '$services/supabase';
 
 class DBController {
@@ -46,15 +46,29 @@ class DBController {
 		return (data as SearchResult[]).sort((a, b) => a.nombre.localeCompare(b.nombre));
 	}
 
-	async createAsignaturaFromAtenea(ateneaAsignatura: AteneaAsignatura): Promise<Asignatura | null> {
-		const { data: uab, error } = await supabase.from(this.tables.UABS).select().eq('nombre', ateneaAsignatura.uab).single()
+	async getUabBy(field: keyof Uab, value: string): Promise<Uab | null> {
+		const { data, error } = await supabase.from(this.tables.UABS).select().eq(field, value).single()
 
-		if (error !== null) return null;
+		if (error !== null) {
+			return null;
+		}
+
+		if (data === null) {
+			return null;
+		}
+
+		return data as Uab;
+	}
+
+	async createAsignaturaFromAtenea(ateneaAsignatura: AteneaAsignatura): Promise<Asignatura | null> {
+		
+		const uab = await this.getUabBy("nombre", ateneaAsignatura.uab);
+		if (uab === null) return null;
 		
 		const asignatura: Partial<Asignatura> = {
 			codigo: ateneaAsignatura.codigo,
 			nombre: ateneaAsignatura.nombre,
-			uab: uab.id,
+			uab: uab.id as any,
 			vigente: ateneaAsignatura.vigente,
 			horasPresenciales: ateneaAsignatura.horasPresenciales,
 			horasNoPresenciales: ateneaAsignatura.horasNoPresenciales,
