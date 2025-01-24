@@ -16,11 +16,16 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import TextEditor from '$src/lib/components/ui/TextEditor.svelte';
+	import { Button } from '$lib/components/ui/button';
 
 	import { StoreAsignatura } from '$src/lib/stores/asignatura.svelte';
+	import type { SvelteComponent } from 'svelte';
 	const storeAsignatura = new StoreAsignatura(asignatura);
 
 	let editMode = $state(false);
+
+	let contenidoEditor: TextEditor;
+	let descripcionEditor: TextEditor;
 </script>
 
 <Section>
@@ -45,7 +50,7 @@
 			</h3>
 
 			{#if editMode}
-				<button disabled class="btn-save">Guardar</button>
+				<Button disabled class="btn-save">Guardar</Button>
 			{/if}
 		</div>
 
@@ -237,19 +242,29 @@
 		</h3>
 
 		{#if editMode}
-			<button
-				onclick={() => {
-					storeAsignatura.updateAsignatura(asignatura.id, { descripcion: asignatura.descripcion });
-				}}
-				class="btn-save">Guardar</button
-			>
+			<div>
+				<Button
+					onclick={() => {
+						storeAsignatura.restoreInitialAsignatura("descripcion");
+						descripcionEditor.replaceContent(storeAsignatura.asignatura.descripcion);
+					}}
+					class="btn-save" variant="secondary">Cancelar</Button
+				>
+				<Button
+					disabled={storeAsignatura.asignatura.descripcion === '' || storeAsignatura.asignatura.descripcion === storeAsignatura.initialAsignatura.descripcion}
+					onclick={() => {
+						storeAsignatura.updateAsignatura(asignatura.id, { descripcion: asignatura.descripcion });
+					}}
+					class="btn-save">Guardar</Button
+				>
+			</div>
 		{/if}
 	</div>
 
 	{#if editMode}
 		<div class="grid grid-cols-2 gap-x-8">
 			<div class="flex flex-col">
-				<TextEditor bind:value={storeAsignatura.asignatura.descripcion} />
+				<TextEditor bind:this={descripcionEditor} bind:value={storeAsignatura.asignatura.descripcion} />
 			</div>
 
 			<div>
@@ -275,19 +290,29 @@
 		</h3>
 
 		{#if editMode}
-			<button
-				onclick={() => {
-					storeAsignatura.updateAsignatura(asignatura.id, { contenido: asignatura.contenido });
-				}}
-				class="btn-save">Guardar</button
-			>
+			<div>
+				<Button
+					onclick={() => {
+						storeAsignatura.restoreInitialAsignatura("contenido");
+						contenidoEditor.replaceContent(storeAsignatura.asignatura.contenido);
+					}}
+					class="btn-save" variant="secondary">Cancelar</Button
+				>
+				<Button
+					disabled={storeAsignatura.asignatura.contenido === '' || storeAsignatura.asignatura.contenido === storeAsignatura.initialAsignatura.contenido}
+					onclick={() => {
+						storeAsignatura.updateAsignatura(asignatura.id, { contenido: asignatura.contenido });
+					}}
+					class="btn-save">Guardar</Button
+				>
+			</div>
 		{/if}
 	</div>
 
 	{#if editMode}
 		<div class="grid grid-cols-2 gap-x-8">
 			<div class="flex flex-col">
-				<TextEditor bind:value={storeAsignatura.asignatura.contenido} />
+				<TextEditor bind:this={contenidoEditor} bind:value={storeAsignatura.asignatura.contenido} />
 			</div>
 
 			<div class="flex flex-col text-wrap">
