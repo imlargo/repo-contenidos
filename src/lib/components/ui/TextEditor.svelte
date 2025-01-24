@@ -1,16 +1,18 @@
 <script lang="ts">
+	import { HtmlToMarkdown, MarkdownToHtml } from '$src/lib/utils/markdown-service';
+	import { browser } from '$app/environment';
+
 	type Props = {
 		value: string;
 		onchange?: (value: string) => void;
 	};
 
 	let { value = $bindable(), onchange }: Props = $props();
-	import { HtmlToMarkdown, MarkdownToHtml } from '$src/lib/utils/markdown-service';
-	import { browser } from '$app/environment';
+	let quill: any;
 
 	function TextEditorAction(element: HTMLElement, markdown: string) {
 		if (browser) {
-			const quill = new Quill(element, {
+			quill = new Quill(element, {
 				modules: {
 					toolbar: [[{ header: [3, 4, 5, false] }], ['bold', 'italic'], [{ list: 'bullet' }]]
 				},
@@ -19,7 +21,7 @@
 			});
 
 			const html = MarkdownToHtml(markdown);
-			quill.clipboard.dangerouslyPasteHTML(html + '\n');
+			quill.clipboard.dangerouslyPasteHTML(html);
 
 			quill.on('text-change', function (delta, source) {
 				const htmlContent = quill.getSemanticHTML();
@@ -30,6 +32,13 @@
 					onchange(parsedMd);
 				}
 			});
+		}
+	}
+
+	export function replaceContent(value: string) {
+		if (quill) {
+			const htmlContent = MarkdownToHtml(value);
+			quill.clipboard.dangerouslyPasteHTML(htmlContent);
 		}
 	}
 </script>
