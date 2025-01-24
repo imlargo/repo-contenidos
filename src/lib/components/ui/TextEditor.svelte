@@ -35,9 +35,10 @@
 		}
 	}
 
-	export function replaceContent(value: string) {
+	export function replaceContent(newValue: string) {
 		if (quill) {
-			const htmlContent = MarkdownToHtml(value);
+			value = newValue;
+			const htmlContent = MarkdownToHtml(newValue);
 			quill.clipboard.dangerouslyPasteHTML(htmlContent);
 		}
 	}
